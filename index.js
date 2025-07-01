@@ -26,11 +26,19 @@ const buttonMap = {
     "percentage-el": " % "
 };
 
-// Loop through the mapping and add event listeners
+function isOperator(char) {
+    return ["+", "-", "*", "/", "%"].includes(char);
+}   
+
 Object.entries(buttonMap).forEach(([id, value]) => {
     const el = document.getElementById(id);
     if (el) {
         el.addEventListener("click", function() {
+            const lastChar = answerBox.textContent.trim().slice(-1)
+            if (isOperator(value.trim()) && isOperator(lastChar)) {
+                answerBox.textContent = answerBox.textContent.slice(0, -3) + value;
+                return;
+            }
             answerBox.textContent += value;
         });
     }
